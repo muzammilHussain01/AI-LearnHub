@@ -34,6 +34,9 @@ function NavBars() {
     return (
         <div>
             <Modal show={show} onHide={handleClose} centered backdrop="static" keyboard={false} size="md">
+                <Modal.Header closeButton>
+
+                </Modal.Header>
                 <Modal.Body style={{background:"linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #ec4899 100%)"}} >
                     {/* Header */}
                     <div className="text-center mb-4">
@@ -107,14 +110,6 @@ function NavBars() {
                     </form>
                 </Modal.Body>
 
-                <Modal.Footer className="border-0 d-flex justify-content-between">
-                    <Button variant="outline-light" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button style={buttonStyle} onClick={handleClose}>
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
             </Modal>
             {/* Navigation Bar */}
             <Navbar expand="lg" style={{ backgroundColor: '#F9FAFB' }} className="shadow-sm py-3">
@@ -126,11 +121,12 @@ function NavBars() {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="ms-auto fw-semibold">
                             <Nav.Link href="/" style={{ color: '#374151' }}>Home</Nav.Link>
+                            <Nav.Link href="/docs" style={{ color: '#374151' }}>Document</Nav.Link>
                             <Nav.Link href="aboutUs" style={{ color: '#374151' }}>About Us</Nav.Link>
                             <Nav.Link href="/community" style={{ color: '#374151' }}>Community</Nav.Link>
                             <Nav.Link href="/contactUs" style={{ color: '#374151' }}>Contact</Nav.Link>
                             <Button variant="primary" onClick={handleShow}>
-                                Launch demo modal
+                                Sign in
                             </Button>
                         </Nav>
                     </Navbar.Collapse>

@@ -20,8 +20,8 @@ function Footer() {
                     <Col xs={6} md={2}>
                         <h6 className="fw-bold mb-3 text-white">Resources</h6>
                         <div><a href="#" className="text-light text-decoration-none d-block mb-2">Learning Tracks</a></div>
-                        <div><a href="#" className="text-light text-decoration-none d-block mb-2">Project Ideas</a></div>
-                        <div><a href="#" className="text-light text-decoration-none d-block">AI News</a></div>
+                        <div><a href="/project-ideas" className="text-light text-decoration-none d-block mb-2">Project Ideas</a></div>
+                        <div><a href="/ai-news" className="text-light text-decoration-none d-block">AI News</a></div>
                     </Col>
 
                     {/* Community */}
@@ -29,7 +29,7 @@ function Footer() {
                         <h6 className="fw-bold mb-3 text-white">Community</h6>
                         <div><a href="#" className="text-light text-decoration-none d-block mb-2">Forum</a></div>
                         <div><a href="#" className="text-light text-decoration-none d-block mb-2">Discord</a></div>
-                        <div><a href="#" className="text-light text-decoration-none d-block">Events</a></div>
+                        <div><a href="/events" className="text-light text-decoration-none d-block">Events</a></div>
                     </Col>
 
                     {/* Company */}

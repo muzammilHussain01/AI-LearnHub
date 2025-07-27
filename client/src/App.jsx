@@ -11,6 +11,12 @@ import PrivacyPolicy from "./components/legal/PrivacyPolicy.jsx"
 import 'animate.css';
 import Community from "./components/community/Community.jsx";
 import TermsOfUse from "./components/legal/TermsOfUse.jsx";
+import AI_news from "./components/ai-news/AI_news.jsx";
+import Events from "./components/events/Events.jsx";
+import ProjectIdeas from "./components/projectIdeas/ProjectIdeas.jsx"
+import AxiosDoc from "./components/axios/AxiosDoc.jsx";
+import FramerMotion from "./components/framer-motion/FramerMotion.jsx";
+import Docs from "./components/docs/Docs.jsx"
 function App() {
   return (
     <>
@@ -18,21 +24,17 @@ function App() {
             <NavBars/>
             <Routes>
                 <Route path="/" element={<HomeIndex />} />
-            </Routes>
-            <Routes>
+                <Route path="/axios" element={<AxiosDoc />} />
+                <Route path="/framer-motion" element={<FramerMotion />} />
                 <Route path="/aboutUs" element={<AboutUs />} />
-            </Routes>
-            <Routes>
                 <Route path="/contactUs" element={<ContactUs />} />
-            </Routes>
-            <Routes>
                 <Route path="/community" element={<Community />} />
-            </Routes>
-            <Routes>
                 <Route path="/privacyPolicy" element={<PrivacyPolicy />} />
-            </Routes>
-            <Routes>
                 <Route path="/termsOfUse" element={<TermsOfUse />} />
+                <Route path="/ai-news" element={<AI_news />} />
+                <Route path="/events" element={<Events />} />
+                <Route path="/project-ideas" element={<ProjectIdeas />} />
+                <Route path="/docs/*" element={<Docs />} />
             </Routes>
             <Footer/>
         </BrowserRouter>
