@@ -17,6 +17,11 @@ import ProjectIdeas from "./components/projectIdeas/ProjectIdeas.jsx"
 import AxiosDoc from "./components/axios/AxiosDoc.jsx";
 import FramerMotion from "./components/framer-motion/FramerMotion.jsx";
 import Docs from "./components/docs/Docs.jsx"
+import ReduxToolKit from "./components/reduxToolKit/ReduxToolKitDocs.jsx"
+import ReactRouter from "./components/react-router/ReactRouter.jsx"
+import ReactQueryDocs from "./components/react-query/ReactQueryDocs.jsx"
+import ValidatorDocs from "./components/validator/ValidatorDocs.jsx";
+import LoadLashDocs from "./components/load-lash/LoadLashDocs.jsx"
 function App() {
   return (
     <>
@@ -26,6 +31,11 @@ function App() {
                 <Route path="/" element={<HomeIndex />} />
                 <Route path="/axios" element={<AxiosDoc />} />
                 <Route path="/framer-motion" element={<FramerMotion />} />
+                <Route path="/react-router" element={<ReactRouter />} />
+                <Route path="/redux-toolkit" element={<ReduxToolKit />} />
+                <Route path="/react-query" element={<ReactQueryDocs />} />
+                <Route path="/validator" element={<ValidatorDocs />} />
+                <Route path="/loadlash" element={<LoadLashDocs />} />
                 <Route path="/aboutUs" element={<AboutUs />} />
                 <Route path="/contactUs" element={<ContactUs />} />
                 <Route path="/community" element={<Community />} />

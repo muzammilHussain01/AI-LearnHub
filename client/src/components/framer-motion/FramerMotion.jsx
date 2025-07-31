@@ -1,19 +1,11 @@
 import React, {useState} from 'react';
 import { motion } from 'framer-motion';
-import { Card, Container, Row, Col, ListGroup, Button, Badge } from 'react-bootstrap';
+import { Card, Container, Row, Col, ListGroup, Button, Badge,Form, InputGroup } from 'react-bootstrap';
 import { Lightning, Cursor, PlayCircle, Layers, Check2Circle } from 'react-bootstrap-icons';
 import { Code2 } from "lucide-react";
 
 
 export default function FramerMotionDoc() {
-    const [copied, setCopied] = useState(false);
-
-    const handleCopy = () => {
-        navigator.clipboard.writeText(code).then(() => {
-            setCopied(true);
-            setTimeout(() => setCopied(false), 1500);
-        });
-    };
     const animations = [
         {
             title: "Pulse",
@@ -499,6 +491,24 @@ export default function FramerMotionDoc() {
             code: `<motion.div animate={{ backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"] }} transition={{ duration: 3, repeat: Infinity }} />`,
         },
     ];
+    const [copied, setCopied] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [filteredAnimations, setFilteredAnimations] = useState(animations);
+
+    const handleSearch = () => {
+        const query = searchQuery.toLowerCase();
+        const results = animations.filter(({ title }) =>
+            title.toLowerCase().includes(query)
+        );
+        setFilteredAnimations(results);
+    };
+
+    const handleCopy = () => {
+        navigator.clipboard.writeText(code).then(() => {
+            setCopied(true);
+            setTimeout(() => setCopied(false), 1500);
+        });
+    };
     return (
         <Container >
             <Row className="align-items-center">
@@ -554,8 +564,8 @@ export default function FramerMotionDoc() {
           </pre>
                 </Card.Body>
             </Card>
-            <Container >
-                <Row >
+            <Container>
+                <Row className="mb-4">
                     <Col>
                         <h2 className="fw-bold">🎬 Framer Motion Animation Showcase</h2>
                         <p className="text-muted">
@@ -564,10 +574,26 @@ export default function FramerMotionDoc() {
                     </Col>
                 </Row>
 
+                <Row className="mb-4">
+                    <Col md={6}>
+                        <InputGroup>
+                            <Form.Control
+                                type="text"
+                                placeholder="Search animations by title..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                            <Button variant="primary" onClick={handleSearch}>
+                                Search
+                            </Button>
+                        </InputGroup>
+                    </Col>
+                </Row>
+
                 <Row xs={1} md={2} lg={3} className="g-4">
-                    {animations.map(({ title, animation, code }, idx) => (
+                    {filteredAnimations.map(({ title, animation, code }, idx) => (
                         <Col key={idx}>
-                            <Card className="shadow-sm border-0 h-100">
+                            <Card className="shadow-sm border-0 h-50">
                                 <Card.Body className="d-flex flex-column text-center">
                                     <h6>
                                         <Badge bg="primary" className="mb-3">{title}</Badge>
@@ -576,8 +602,8 @@ export default function FramerMotionDoc() {
                                         <motion.div
                                             {...animation}
                                             style={{
-                                                width: 80,
-                                                height: 80,
+                                                width: 50,
+                                                height: 50,
                                                 borderRadius: 12,
                                                 background: "#0d6efd",
                                                 margin: "auto",
@@ -586,7 +612,7 @@ export default function FramerMotionDoc() {
                                     </div>
                                     <pre className="bg-light text-start px-3 py-2 rounded small overflow-auto" style={{ maxHeight: 120 }}>
 {code}
-                </pre>
+                                </pre>
                                 </Card.Body>
                             </Card>
                         </Col>

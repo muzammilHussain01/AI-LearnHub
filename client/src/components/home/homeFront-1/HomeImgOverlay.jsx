@@ -5,6 +5,8 @@ import {NavLink, Route} from "react-router-dom";
 import BootstrapIntro from "../../docs/bootstrap/BootstrapIntro.jsx";
 import AxiosDoc from "../../axios/AxiosDoc.jsx"
 import FramerMotion from "../../framer-motion/FramerMotion.jsx"
+import ReactRouter from "../../react-router/ReactRouter.jsx"
+import ReduxToolKit from "../../reduxToolKit/ReduxToolKitDocs.jsx"
 
 const HomeImgOverlay = () => {
     return (
@@ -75,6 +77,7 @@ const HomeImgOverlay = () => {
                             <div className="d-flex flex-wrap gap-3 mt-4">
 
                                 {/* Bootstrap */}
+                                <NavLink to="/docs" style={{textDecoration: "none"}}>
                                 <span
                                     className="text-white fw-semibold px-4 py-2 rounded-pill shadow"
                                     style={{
@@ -85,8 +88,39 @@ const HomeImgOverlay = () => {
                                         border: "2px solid #59329d"
                                     }}
                                 >
-    BOOTSTRAP
-  </span>
+                                    BOOTSTRAP
+                                </span>
+                                </NavLink>
+                                {/* Validator */}
+                                <NavLink to="/validator" style={{textDecoration: "none"}}>
+                                <span
+                                    className="text-white fw-semibold px-4 py-2 rounded-pill shadow"
+                                    style={{
+                                        fontSize: "20px",
+                                        fontFamily: "'Segoe UI', sans-serif",
+                                        letterSpacing: "1px",
+                                        backgroundColor: "#6f42c1", // Bootstrap Purple
+                                        border: "2px solid #59329d"
+                                    }}
+                                >
+                                    Validator
+                                </span>
+                                </NavLink>
+                                {/* Loadlash */}
+                                <NavLink to="/loadlash" style={{textDecoration: "none"}}>
+                                <span
+                                    className="text-white fw-semibold px-4 py-2 rounded-pill shadow"
+                                    style={{
+                                        fontSize: "20px",
+                                        fontFamily: "'Segoe UI', sans-serif",
+                                        letterSpacing: "1px",
+                                        backgroundColor: "#6f42c1", // Bootstrap Purple
+                                        border: "2px solid #59329d"
+                                    }}
+                                >
+                                    Load-Lash
+                                </span>
+                                </NavLink>
 
                                 {/* React */}
                                 <span
@@ -133,6 +167,7 @@ const HomeImgOverlay = () => {
                                 </NavLink>
 
                                 {/* React Router */}
+                                <NavLink to="/react-router" style={{textDecoration: "none"}}>
                                 <span
                                     className="text-white fw-semibold px-4 py-2 rounded-pill shadow"
                                     style={{
@@ -143,10 +178,12 @@ const HomeImgOverlay = () => {
                                         border: "2px solid #a73638"
                                     }}
                                 >
-    React Router
-  </span>
+                                    React Router
+                                </span>
+                                </NavLink>
 
                                 {/* Redux Toolkit */}
+                                <NavLink to="/redux-toolkit" style={{textDecoration: "none"}}>
                                 <span
                                     className="text-white fw-semibold px-4 py-2 rounded-pill shadow"
                                     style={{
@@ -157,8 +194,9 @@ const HomeImgOverlay = () => {
                                         border: "2px solid #5a36a3"
                                     }}
                                 >
-    Redux Toolkit
-  </span>
+                                    Redux Toolkit
+                                </span>
+                                </NavLink>
 
                                 {/* Axios */}
 
@@ -185,20 +223,25 @@ const HomeImgOverlay = () => {
                                 <Routes>
                                     <Route path="/framer-motion" element={<FramerMotion />} />
                                 </Routes>
+                                <Routes>
+                                    <Route path="/react-router" element={<ReactRouter />} />
+                                </Routes>
 
                                 {/* React Query */}
+                                <NavLink to="/react-query" style={{textDecoration: "none"}}>
                                 <span
                                     className="text-white fw-semibold px-4 py-2 rounded-pill shadow"
                                     style={{
                                         fontSize: "20px",
                                         fontFamily: "'Segoe UI', sans-serif",
                                         letterSpacing: "1px",
-                                        backgroundColor: "#FF4154", // React Query Red
+                                        backgroundColor: "#FF4154",
                                         border: "2px solid #cc3544"
                                     }}
                                 >
-    React Query
-  </span>
+                                React Query
+                                </span>
+                                </NavLink>
 
                             </div>
 
