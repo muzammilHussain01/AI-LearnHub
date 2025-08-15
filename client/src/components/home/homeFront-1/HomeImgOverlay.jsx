@@ -1,256 +1,140 @@
-import React from 'react';
-import {Routes} from "react-router"
-import {motion} from "framer-motion"
-import {NavLink, Route} from "react-router-dom";
-import BootstrapIntro from "../../docs/bootstrap/BootstrapIntro.jsx";
-import AxiosDoc from "../../axios/AxiosDoc.jsx"
-import FramerMotion from "../../framer-motion/FramerMotion.jsx"
-import ReactRouter from "../../react-router/ReactRouter.jsx"
-import ReduxToolKit from "../../reduxToolKit/ReduxToolKitDocs.jsx"
+import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { NavLink } from "react-router-dom";
+import { getApi } from "../../helper/helper.js";
 
-const HomeImgOverlay = () => {
+const HomeHero = () => {
+    const [topics, setTopics] = useState([]);
+
+    useEffect(() => {
+        const fetchTopics = async () => {
+            try {
+                const response = await getApi("getAvailableLibraries");
+                setTopics(response.data.data || []);
+            } catch (error) {
+                setTopics([]);
+                console.error("Error fetching topics:", error);
+            }
+        };
+        fetchTopics();
+    }, []);
+
     return (
         <div
-            className="d-flex align-items-center justify-content-center text-white"
+            className="d-flex flex-column align-items-center justify-content-center text-center text-white"
             style={{
-                minHeight: '100vh',
-                backgroundImage: 'url("https://i0.wp.com/bdtechtalks.com/wp-content/uploads/2025/04/cyborg-coding.webp?ssl=1")',
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat',
-                padding: '2rem',
-                position: 'relative',
-                zIndex: 1,
+                minHeight: "100vh",
+                backgroundImage:
+                    'url("https://i0.wp.com/bdtechtalks.com/wp-content/uploads/2025/04/cyborg-coding.webp?ssl=1")',
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                position: "relative",
+                padding: "0 20px",
             }}
         >
-            {/* Dark overlay */}
+            {/* Overlay */}
             <div
+                className="position-absolute top-0 start-0 w-100 h-100"
                 style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    height: '100%',
-                    width: '100%',
-                    backgroundColor: 'rgba(0, 0, 0, 0.75)',
-                    zIndex: 2,
+                    background: "rgba(17, 24, 39, 0.85)",
+                    zIndex: 1,
                 }}
             ></div>
 
-            {/* Content */}
-            <div className="container" style={{ position: 'relative', zIndex: 3 }}>
-                <div className="row justify-content-center text-center text-md-start">
-                    <div className="col-md-10">
-                        <motion.h1
-                            className="display-3 fw-bold mb-4"
-                            initial={{ opacity: 0, y: 40 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
+            <div className="position-relative z-2">
+                {/* Title */}
+                <motion.h1
+                    className="fw-bold mb-3"
+                    style={{ fontSize: "3rem", lineHeight: 1.2 }}
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                >
+                    Build Smart, Modern <br />
+                    <span
+                        style={{
+                            background: "linear-gradient(90deg, #3b82f6, #9333ea, #ec4899)",
+                            WebkitBackgroundClip: "text",
+                            WebkitTextFillColor: "transparent",
+                        }}
+                    >
+            Web Solutions
+          </span>
+                </motion.h1>
+
+                {/* Subtext */}
+                <motion.p
+                    className="fs-6 text-light mb-4"
+                    style={{ maxWidth: "700px", margin: "0 auto" }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, duration: 0.8 }}
+                >
+                    Explore modern web development tools, frameworks, and cutting-edge
+                    techniques. Build scalable, efficient, and maintainable applications
+                    with step-by-step guidance.
+                </motion.p>
+
+                {/* Topic Badges */}
+                <motion.div
+                    className="d-flex flex-wrap justify-content-center gap-2 mb-4"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.6, duration: 1 }}
+                >
+                    {topics.map((t, i) => (
+                        <motion.span
+                            key={i}
+                            whileHover={{ scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.25)" }}
+                            className={`px-3 py-2 rounded-pill shadow-sm ${t.color}`}
+                            style={{
+                                cursor: "pointer",
+                                fontWeight: 500,
+                                fontSize: "0.85rem",
+                                backdropFilter: "blur(6px)",
+                                backgroundColor: "rgba(255,255,255,0.08)",
+                            }}
                         >
-                            Learn. Build. Dominate.<br />
-                            <span
-                                style={{
-                                    background: 'linear-gradient(to right, #0ea5e9, #8b5cf6)',
-                                    WebkitBackgroundClip: 'text',
-                                    WebkitTextFillColor: 'transparent',
-                                }}
-                            >
-                                LearnHub
-                            </span>
-                        </motion.h1>
+                            {t.name}
+                        </motion.span>
+                    ))}
+                </motion.div>
 
-                        <motion.p
-                            className="lead fs-5 text-light mb-4"
-                            style={{ maxWidth: '800px' }}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.5, duration: 0.8 }}
-                        >
-                            This isn’t just another AI course. It's your command center to explore, experiment, and engineer powerful real-world AI applications — one breakthrough at a time.
-                        </motion.p>
+                {/* Action Buttons */}
+                <div className="d-flex flex-wrap justify-content-center gap-3 mt-3">
+                    <motion.button
+                        whileHover={{ scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" }}
+                        style={{
+                            background: "linear-gradient(90deg, #6366f1, #ec4899)",
+                            border: "none",
+                            padding: "0.65rem 2rem",
+                            borderRadius: "999px",
+                            color: "#fff",
+                            fontWeight: 600,
+                            cursor: "pointer",
+                        }}
+                    >
+                        Get Started
+                    </motion.button>
 
-                        <motion.div
-                            className="text-light fs-5"
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 1, duration: 1 }}
-                        >
-                            <div className="d-flex flex-wrap gap-3 mt-4">
-
-                                {/* Bootstrap */}
-                                <NavLink to="/docs" style={{textDecoration: "none"}}>
-                                <span
-                                    className="text-white fw-semibold px-4 py-2 rounded-pill shadow"
-                                    style={{
-                                        fontSize: "20px",
-                                        fontFamily: "'Segoe UI', sans-serif",
-                                        letterSpacing: "1px",
-                                        backgroundColor: "#6f42c1", // Bootstrap Purple
-                                        border: "2px solid #59329d"
-                                    }}
-                                >
-                                    BOOTSTRAP
-                                </span>
-                                </NavLink>
-                                {/* Validator */}
-                                <NavLink to="/validator" style={{textDecoration: "none"}}>
-                                <span
-                                    className="text-white fw-semibold px-4 py-2 rounded-pill shadow"
-                                    style={{
-                                        fontSize: "20px",
-                                        fontFamily: "'Segoe UI', sans-serif",
-                                        letterSpacing: "1px",
-                                        backgroundColor: "#6f42c1", // Bootstrap Purple
-                                        border: "2px solid #59329d"
-                                    }}
-                                >
-                                    Validator
-                                </span>
-                                </NavLink>
-                                {/* Loadlash */}
-                                <NavLink to="/loadlash" style={{textDecoration: "none"}}>
-                                <span
-                                    className="text-white fw-semibold px-4 py-2 rounded-pill shadow"
-                                    style={{
-                                        fontSize: "20px",
-                                        fontFamily: "'Segoe UI', sans-serif",
-                                        letterSpacing: "1px",
-                                        backgroundColor: "#6f42c1", // Bootstrap Purple
-                                        border: "2px solid #59329d"
-                                    }}
-                                >
-                                    Load-Lash
-                                </span>
-                                </NavLink>
-
-                                {/* React */}
-                                <span
-                                    className="text-dark fw-semibold px-4 py-2 rounded-pill shadow"
-                                    style={{
-                                        fontSize: "20px",
-                                        fontFamily: "'Segoe UI', sans-serif",
-                                        letterSpacing: "1px",
-                                        backgroundColor: "#61DAFB", // React Cyan
-                                        border: "2px solid #3bbfdd"
-                                    }}
-                                >
-    React
-  </span>
-
-                                {/* Material-UI */}
-                                <span
-                                    className="text-white fw-semibold px-4 py-2 rounded-pill shadow"
-                                    style={{
-                                        fontSize: "20px",
-                                        fontFamily: "'Segoe UI', sans-serif",
-                                        letterSpacing: "1px",
-                                        backgroundColor: "#007FFF", // MUI Blue
-                                        border: "2px solid #005fcc"
-                                    }}
-                                >
-    Material-UI
-  </span>
-
-                                {/* Framer Motion */}
-                                <NavLink to="/framer-motion" style={{textDecoration: "none"}}>
-                                <span
-                                    className="text-white fw-semibold px-4 py-2 rounded-pill shadow"
-                                    style={{
-                                        fontSize: "20px",
-                                        fontFamily: "'Segoe UI', sans-serif",
-                                        letterSpacing: "1px",
-                                        backgroundColor: "#e100ff", // Framer Motion Purple
-                                        border: "2px solid #b200cc"
-                                    }}
-                                >
-                                    Framer Motion
-                                </span>
-                                </NavLink>
-
-                                {/* React Router */}
-                                <NavLink to="/react-router" style={{textDecoration: "none"}}>
-                                <span
-                                    className="text-white fw-semibold px-4 py-2 rounded-pill shadow"
-                                    style={{
-                                        fontSize: "20px",
-                                        fontFamily: "'Segoe UI', sans-serif",
-                                        letterSpacing: "1px",
-                                        backgroundColor: "#CA4245", // React Router Red
-                                        border: "2px solid #a73638"
-                                    }}
-                                >
-                                    React Router
-                                </span>
-                                </NavLink>
-
-                                {/* Redux Toolkit */}
-                                <NavLink to="/redux-toolkit" style={{textDecoration: "none"}}>
-                                <span
-                                    className="text-white fw-semibold px-4 py-2 rounded-pill shadow"
-                                    style={{
-                                        fontSize: "20px",
-                                        fontFamily: "'Segoe UI', sans-serif",
-                                        letterSpacing: "1px",
-                                        backgroundColor: "#764ABC", // Redux Purple
-                                        border: "2px solid #5a36a3"
-                                    }}
-                                >
-                                    Redux Toolkit
-                                </span>
-                                </NavLink>
-
-                                {/* Axios */}
-
-                                <NavLink to="/axios" style={{textDecoration: "none"}}>
-                                      <span
-                                          className="text-white fw-semibold px-4 py-2 rounded-pill shadow"
-                                          style={{
-                                              fontSize: "20px",
-                                              fontFamily: "'Segoe UI', sans-serif",
-                                              letterSpacing: "1px",
-                                              backgroundColor: "#5A29E4", // Axios Blue
-                                              border: "2px solid #421fbe",
-                                              cursor: "pointer",
-
-
-                                          }}
-                                      >
-                                        Axios
-                                      </span>
-                                </NavLink>
-                                <Routes>
-                                    <Route path="/axios" element={<AxiosDoc />} />
-                                </Routes>
-                                <Routes>
-                                    <Route path="/framer-motion" element={<FramerMotion />} />
-                                </Routes>
-                                <Routes>
-                                    <Route path="/react-router" element={<ReactRouter />} />
-                                </Routes>
-
-                                {/* React Query */}
-                                <NavLink to="/react-query" style={{textDecoration: "none"}}>
-                                <span
-                                    className="text-white fw-semibold px-4 py-2 rounded-pill shadow"
-                                    style={{
-                                        fontSize: "20px",
-                                        fontFamily: "'Segoe UI', sans-serif",
-                                        letterSpacing: "1px",
-                                        backgroundColor: "#FF4154",
-                                        border: "2px solid #cc3544"
-                                    }}
-                                >
-                                React Query
-                                </span>
-                                </NavLink>
-
-                            </div>
-
-                        </motion.div>
-                    </div>
+                    <motion.button
+                        whileHover={{ scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.3)" }}
+                        style={{
+                            background: "transparent",
+                            border: "1px solid #fff",
+                            padding: "0.65rem 2rem",
+                            borderRadius: "999px",
+                            color: "#fff",
+                            fontWeight: 600,
+                            cursor: "pointer",
+                        }}
+                    >
+                        View Documentation
+                    </motion.button>
                 </div>
             </div>
         </div>
     );
 };
 
-export default HomeImgOverlay;
+export default HomeHero;

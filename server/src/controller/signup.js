@@ -6,6 +6,7 @@ async function signup(req, res) {
     console.log("Signup API is calling.");
     try {
         const { firstName, lastName, email, password, phoneNumber } = req.body;
+        console.log("--->>>>>>>>Hi")
         if (
             !firstName ||
             typeof firstName !== "string" ||
@@ -38,7 +39,7 @@ async function signup(req, res) {
                 message: "One or more fields are missing or invalid."
             });
         }
-
+console.log("--->>>>>>>>Hi")
         const userSnapshot = await db.collection("users")
             .where("email", "==", email)
             .get();

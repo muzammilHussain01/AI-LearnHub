@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { Card, Button, InputGroup, FormControl, Table, Row, Col } from 'react-bootstrap';
+import { Clipboard } from 'react-bootstrap-icons';
 
 const ValidatorDocs = () => {
+    const [copied, setCopied] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+
     const validatorMethods = [
         { method: 'isEmail(str)', description: 'Checks if the string is a valid email address' },
         { method: 'isURL(str)', description: 'Checks if the string is a valid URL' },
@@ -41,7 +45,6 @@ const ValidatorDocs = () => {
         { method: 'unescape(str)', description: 'Unescapes HTML entities in a string' },
         { method: 'stripLow(str)', description: 'Removes ASCII control characters (char codes < 32)' }
     ];
-    const [copied, setCopied] = useState('');
 
     const snippets = {
         install: `npm install validator`,
@@ -53,63 +56,62 @@ if (validator.isEmail(email)) {
   console.log('Valid Email');
 } else {
   console.log('Invalid Email');
-}`,
-        methods: `Common Methods:
-- isEmail(input)
-- isURL(input)
-- isEmpty(input)
-- isLength(input, { min, max })
-- isNumeric(input)
-- equals(str, comparison)
-- escape(input)
-- trim(input)`,
+}`
     };
 
     const handleCopy = async (text) => {
         try {
             await navigator.clipboard.writeText(text);
             setCopied(text);
-            setTimeout(() => setCopied(''), 1500);
+            setTimeout(() => setCopied(''), 2000);
         } catch (err) {
             alert('Copy failed!');
         }
     };
 
-    const CodeBlock = ({ title, code }) => (
-        <div className="mb-4 position-relative">
-            <h6 className="text-secondary">{title}</h6>
-            <pre className="bg-light border p-3 rounded overflow-auto">
-        <code>{code}</code>
-      </pre>
-            <button
-                className="btn btn-sm btn-outline-primary position-absolute top-0 end-0 m-2"
-                onClick={() => handleCopy(code)}
-            >
-                {copied === code ? 'Copied!' : 'Copy'}
-            </button>
-        </div>
+    const filteredMethods = validatorMethods.filter(({ method, description }) =>
+        method.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        description.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
-        <div className="container bg-white p-4 rounded shadow-sm my-4">
-            <h3 className="text-primary mb-3">🔍 Validator Library Overview</h3>
-            <p>
-                The <strong><code>validator</code></strong> library is a simple and powerful tool for validating and sanitizing strings in JavaScript. It's widely used in both frontend and backend applications to ensure data integrity and prevent invalid inputs.
-            </p>
+        <div className="container py-5 px-3 px-md-5">
+            <Row>
+                <Col>
+                    <h6 className="text-primary">🛡️ Validator.js</h6>
 
-            <CodeBlock title="📦 Installation" code={snippets.install} />
+                    <p className="text-muted">
+                        <code>validator</code> is a robust and widely-used JavaScript library for validating and sanitizing strings. It helps ensure data integrity and security in both Node.js backend applications and frontend forms by handling user input effectively.
+                    </p>
+                </Col>
+                <Col>
+                    <section className="mb-5">
+                        <h2 className="h5 fw-semibold mb-3">📦 Installation</h2>
+                        <pre className="bg-light p-3 border rounded">
+{snippets.install}
+        </pre>
+                    </section>
+                </Col>
+            </Row>
 
-            <CodeBlock title="🧪 Basic Usage Example" code={snippets.usage} />
+            <section className="mb-5">
+                <h2 className="h5 fw-semibold mb-3">🔰 Basic Usage Example</h2>
+                <pre className="bg-light p-3 border rounded">
+{snippets.usage}
+        </pre>
+            </section>
 
-            <CodeBlock title="📘 Commonly Used Methods" code={snippets.methods} />
-            <div className="container bg-white p-4 my-4 rounded shadow-sm">
-                <p>
-                    The <code>validator</code> library provides a wide range of functions to validate and sanitize strings. Below
-                    is a list of commonly used methods with their descriptions.
-                </p>
-
-                <div className="table-responsive mt-4">
-                    <table className="table table-bordered table-hover align-middle">
+            <section className="mb-5">
+                <h2 className="h5 fw-semibold mb-3">📚 Validator Methods</h2>
+                <InputGroup className="mb-3">
+                    <FormControl
+                        placeholder="Search methods..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </InputGroup>
+                <div className="table-responsive">
+                    <Table bordered hover>
                         <thead className="table-light">
                         <tr>
                             <th>Method</th>
@@ -117,37 +119,30 @@ if (validator.isEmail(email)) {
                         </tr>
                         </thead>
                         <tbody>
-                        {validatorMethods.map(({ method, description }, index) => (
+                        {filteredMethods.map(({ method, description }, index) => (
                             <tr key={index}>
-                                <td>
-                                    <code>{method}</code>
-                                </td>
+                                <td><code>{method}</code></td>
                                 <td>{description}</td>
                             </tr>
                         ))}
                         </tbody>
-                    </table>
+                    </Table>
                 </div>
+            </section>
 
-                <p className="mt-4">
-                    You can import the library using <code>const validator = require('validator')</code> or{' '}
-                    <code>import validator from 'validator'</code> and start using these methods for form validation,
-                    sanitization, and input verification.
+            <section className="mb-5">
+                <h2 className="h5 fw-semibold mb-3">💡 Why Use validator?</h2>
+                <ul>
+                    <li>Lightweight and dependency-free</li>
+                    <li>Fast and easy to use</li>
+                    <li>Great for input validation and sanitization</li>
+                    <li>Commonly used with Node.js and Express</li>
+                    <li>Supports a wide range of validation checks</li>
+                </ul>
+                <p className="mt-3 text-muted">
+                    The <code>validator</code> library makes it simple to build secure and user-friendly forms and APIs. It handles validation logic that would otherwise require writing a lot of repetitive code.
                 </p>
-            </div>
-
-            <h5 className="mt-4 text-secondary">💡 Why Use validator?</h5>
-            <ul>
-                <li>Lightweight and dependency-free</li>
-                <li>Fast and easy to use</li>
-                <li>Great for input validation and sanitization</li>
-                <li>Commonly used with Node.js and Express</li>
-                <li>Supports a wide range of validation checks</li>
-            </ul>
-
-            <p className="mt-3">
-                The <code>validator</code> library makes it simple to build secure and user-friendly forms and APIs. It handles validation logic that would otherwise require writing a lot of repetitive code.
-            </p>
+            </section>
         </div>
     );
 };

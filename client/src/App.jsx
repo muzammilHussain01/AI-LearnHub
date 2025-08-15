@@ -22,6 +22,16 @@ import ReactRouter from "./components/react-router/ReactRouter.jsx"
 import ReactQueryDocs from "./components/react-query/ReactQueryDocs.jsx"
 import ValidatorDocs from "./components/validator/ValidatorDocs.jsx";
 import LoadLashDocs from "./components/load-lash/LoadLashDocs.jsx"
+import ExpressRateLimitDoc from "./components/express-rate-limit/ExpressRateLimitDoc.jsx"
+import ExpressDoc from "./components/express-doc/ExpressDoc.jsx";
+import HelmetDoc from "./components/helmet/HelmetDoc.jsx";
+import BootstrapIconsDoc from "./components/bootstrap-iocns/BootstrapIocnsDoc.jsx"
+import BootstrapColorAndFontStyle from "./components/bootstrap-color/BootstrapColorAndFontStyle.jsx"
+import MorganDoc from "./components/MorganDoc/MorganDoc.jsx"
+import JsonwebtokenDoc from "./components/jsonwebtoken/JsonwebtokenDoc.jsx";
+import CorsDoc from "./components/cors/CorsDoc.jsx"
+import SwaggerDoc from "./components/swagger/SwaggerDoc.jsx"
+import GitHubActionDoc from "./components/github-action/GitHubActionDoc.jsx";
 function App() {
   return (
     <>
@@ -36,6 +46,16 @@ function App() {
                 <Route path="/react-query" element={<ReactQueryDocs />} />
                 <Route path="/validator" element={<ValidatorDocs />} />
                 <Route path="/loadlash" element={<LoadLashDocs />} />
+                <Route path="/express-rate-limit" element={<ExpressRateLimitDoc />} />
+                <Route path="/express" element={<ExpressDoc />} />
+                <Route path="/helmet" element={<HelmetDoc />} />
+                <Route path="/bootstrap-icons" element={<BootstrapIconsDoc />} />
+                <Route path="/bootstrapColor-fontStyle" element={<BootstrapColorAndFontStyle />} />
+                <Route path="/morgan" element={<MorganDoc />} />
+                <Route path="/jwt-token" element={<JsonwebtokenDoc />} />
+                <Route path="/cors" element={<CorsDoc />} />
+                <Route path="/swagger" element={<SwaggerDoc/>}/>
+                <Route path="/github-action" element={<GitHubActionDoc/>}/>
                 <Route path="/aboutUs" element={<AboutUs />} />
                 <Route path="/contactUs" element={<ContactUs />} />
                 <Route path="/community" element={<Community />} />
