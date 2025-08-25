@@ -1,127 +1,23 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { Card, Button, Container, Row, Col } from 'react-bootstrap';
+import {getApi} from "../helper/helper.js";
 
 const ExpressRateLimitDoc = () => {
+    const [expressRateLimitData, setExpressRateLimitData] = useState([]);
+
+    useEffect(() => {
+        const fetchTopics = async () => {
+            try {
+                const response = await getApi("expressRateLimit");
+                setExpressRateLimitData(response.data.data || []);
+            } catch (error) {
+                setExpressRateLimitData([]);
+                console.error("Error fetching topics:", error);
+            }
+        };
+        fetchTopics();
+    }, []);
     const [copiedIndex, setCopiedIndex] = useState(null);
-
-    const snippets = [
-        {
-            title: '📦 Installation',
-            code: `npm install express-rate-limit`,
-            test: `// Test: Check if package is installed
-const pkg = require('express-rate-limit');
-console.assert(typeof pkg.rateLimit === 'function', 'rateLimit function should exist');`
-        },
-        {
-            title: '🛡️ Basic Usage',
-            code: `
-import express from 'express';
-import { rateLimit } from 'express-rate-limit';
-
-const app = express();
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  limit: 100,
-});
-
-app.use(limiter);`,
-            test: `// Test: Should limit to 100 requests
-const request = require('supertest');
-const express = require('express');
-const { rateLimit } = require('express-rate-limit');
-
-const app = express();
-app.use(rateLimit({ windowMs: 60000, limit: 2 }));
-app.get('/', (req, res) => res.send('ok'));
-
-(async () => {
-  await request(app).get('/'); // ok
-  await request(app).get('/'); // ok
-  const res = await request(app).get('/');
-  console.assert(res.status === 429, 'Should block after limit');
-})();`
-        },
-        {
-            title: '💬 Custom Response Message',
-            code: `
-const limiter = rateLimit({
-  windowMs: 1 * 60 * 1000,
-  limit: 5,
-  message: 'Too many requests from this IP',
-});`,
-            test: `// Test: Should return custom message
-// See above example and check res.text includes 'Too many requests from this IP'`
-        },
-        {
-            title: '🔄 Custom Handler Function',
-            code: `
-const limiter = rateLimit({
-  windowMs: 10 * 60 * 1000,
-  limit: 50,
-  handler: (req, res) => {
-    res.status(429).json({ message: 'Custom handler called' });
-  },
-});`,
-            test: `// Test: Custom handler
-// Send requests > limit and check if response JSON has { message: 'Custom handler called' }`
-        },
-        {
-            title: '🚫 Skipping Certain Requests',
-            code: `
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 100,
-  skip: (req) => req.ip === '127.0.0.1',
-});`,
-            test: `// Test: Should skip localhost IP
-// Use mock request with IP '127.0.0.1' and ensure limiter doesn’t apply`
-        },
-        {
-            title: '📦 Using Redis Store (Example)',
-            code: `
-import RedisStore from 'rate-limit-redis';
-
-const limiter = rateLimit({
-  store: new RedisStore({
-    sendCommand: (...args) => redisClient.call(...args),
-  }),
-  windowMs: 15 * 60 * 1000,
-  limit: 100,
-});`,
-            test: `// Test: Requires Redis setup
-// Confirm keys are stored in Redis and limits apply across instances`
-        },
-        {
-            title: '📊 Key Generator',
-            code: `
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  limit: 100,
-  keyGenerator: (req) => req.headers['x-real-ip'] || req.ip,
-});`,
-            test: `// Test: Use different x-real-ip headers
-// Confirm rate limit works per custom key not just IP`
-        },
-        {
-            title: '📝 All Config Options (Reference)',
-            code: `{
-  windowMs: 15 * 60 * 1000,
-  limit: 100,
-  message: 'Too many requests',
-  statusCode: 429,
-  headers: true,
-  legacyHeaders: false,
-  standardHeaders: 'draft-8',
-  skip: (req) => false,
-  handler: (req, res) => {},
-  store: RedisStore,
-  keyGenerator: (req) => req.ip,
-}`,
-            test: `// Test: Apply all options together and verify functionality works as expected.`
-        }
-    ];
-
     const handleCopy = (text, index) => {
         navigator.clipboard.writeText(text.trim());
         setCopiedIndex(index);
@@ -175,7 +71,7 @@ const limiter = rateLimit({
                 </Col>
             </Row>
 
-            {snippets.map((snippet, index) => (
+            {expressRateLimitData.map((snippet, index) => (
                 <Card className="mb-4" key={index}>
                     <Card.Header className="d-flex justify-content-between align-items-center">
                         <strong>{snippet.title}</strong>
@@ -188,7 +84,7 @@ const limiter = rateLimit({
                         </Button>
                     </Card.Header>
                     <Card.Body>
-            <pre className="bg-light p-3 rounded overflow-auto">
+            <pre className="bg-light p-3 rounded overflow-auto bg-black text-white">
               <code>{snippet.code.trim()}</code>
             </pre>
                         {snippet.test && (

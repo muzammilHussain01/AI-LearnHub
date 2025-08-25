@@ -32,6 +32,10 @@ import JsonwebtokenDoc from "./components/jsonwebtoken/JsonwebtokenDoc.jsx";
 import CorsDoc from "./components/cors/CorsDoc.jsx"
 import SwaggerDoc from "./components/swagger/SwaggerDoc.jsx"
 import GitHubActionDoc from "./components/github-action/GitHubActionDoc.jsx";
+import VectorDbDoc from "./components/vectorDb/VectorDbDoc.jsx";
+import PineconeDoc from "./components/pinecone/PineconeDoc.jsx";
+import MermaidDoc from "./components/mermaid/MermaidDoc.jsx";
+import MongoDbDoc from "./components/mongoDb/MongoDbDoc.jsx";
 function App() {
   return (
     <>
@@ -56,6 +60,10 @@ function App() {
                 <Route path="/cors" element={<CorsDoc />} />
                 <Route path="/swagger" element={<SwaggerDoc/>}/>
                 <Route path="/github-action" element={<GitHubActionDoc/>}/>
+                <Route path="/vector-DB" element={<VectorDbDoc/>}/>
+                <Route path="/pinecone" element={<PineconeDoc/>}/>
+                <Route path="/mermaid" element={<MermaidDoc/>}/>
+                <Route path="/mongoDb" element={<MongoDbDoc/>}/>
                 <Route path="/aboutUs" element={<AboutUs />} />
                 <Route path="/contactUs" element={<ContactUs />} />
                 <Route path="/community" element={<Community />} />

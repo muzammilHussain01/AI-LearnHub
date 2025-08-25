@@ -6,8 +6,8 @@ function HomeIndex() {
     return (
         <>
             <HomeImgOverlay/>
-            <HomePage_2/>
             <HomePage_3/>
+            <HomePage_2/>
         </>
     );
 }

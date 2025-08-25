@@ -83,20 +83,27 @@ const HomeHero = () => {
                     transition={{ delay: 0.6, duration: 1 }}
                 >
                     {topics.map((t, i) => (
-                        <motion.span
-                            key={i}
-                            whileHover={{ scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.25)" }}
-                            className={`px-3 py-2 rounded-pill shadow-sm ${t.color}`}
-                            style={{
-                                cursor: "pointer",
-                                fontWeight: 500,
-                                fontSize: "0.85rem",
-                                backdropFilter: "blur(6px)",
-                                backgroundColor: "rgba(255,255,255,0.08)",
-                            }}
-                        >
-                            {t.name}
-                        </motion.span>
+                        <nav style={{ textDecoration: "none" }}>
+                            <NavLink
+                                to={t.path}
+                                style={{ textDecoration: "none", color: "inherit" }}
+                            >
+                                <motion.span
+                                    key={i}
+                                    whileHover={{ scale: 1.1, boxShadow: "0 8px 20px rgba(0,0,0,0.25)" }}
+                                    className={`px-3 py-2 rounded-pill shadow-sm ${t.color}`}
+                                    style={{
+                                        cursor: "pointer",
+                                        fontWeight: 500,
+                                        fontSize: "0.85rem",
+                                        backdropFilter: "blur(6px)",
+                                        backgroundColor: "rgba(255,255,255,0.08)",
+                                    }}
+                                >
+                                    {t.name}
+                                </motion.span>
+                            </NavLink>
+                        </nav>
                     ))}
                 </motion.div>
 
@@ -138,3 +145,4 @@ const HomeHero = () => {
 };
 
 export default HomeHero;
+

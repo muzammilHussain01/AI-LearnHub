@@ -1,32 +1,25 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
+import {getApi} from "../helper/helper.js";
 
 function CommunityText() {
-    const sections = [
-        {
-            title: "🌱 Why We Exist",
-            content:
-                "The AI revolution is reshaping industries and everyday experiences. Yet, quality education often sits behind paywalls. AI LearnHub exists to democratize AI knowledge — offering curated, beginner-friendly, and community-supported resources for everyone.",
-        },
-        {
-            title: "🚀 What We Offer",
-            content:
-                "From coding projects and AI challenges to curated learning tracks and mentorship — our platform delivers hands-on, up-to-date AI learning experiences. Stay ahead with the latest tools, ethical practices, and vibrant discussions around intelligent technology.",
-        },
-        {
-            title: "🌍 Our Vision",
-            content:
-                "We envision an open, inclusive, and ethically-driven AI future. Our goal is to empower developers and thinkers everywhere to responsibly innovate and build AI systems that serve humanity’s best interests.",
-        },
-        {
-            title: "👥 Join the Movement",
-            content:
-                "Become part of a global network of AI enthusiasts. Collaborate on projects, participate in events, and shape your AI journey alongside a passionate, driven community. Together, we learn, build, and lead.",
-        },
-    ];
+    const [communityTextData, setCommunityTextData] = useState([]);
+
+    useEffect(() => {
+        const fetchTopics = async () => {
+            try {
+                const response = await getApi("community");
+                setCommunityTextData(response.data.data || []);
+            } catch (error) {
+                setCommunityTextData([]);
+                console.error("Error fetching topics:", error);
+            }
+        };
+        fetchTopics();
+    }, []);
 
     return (
         <div style={{ background: '#f9fafb', padding: '60px 0' }}>
@@ -36,7 +29,7 @@ function CommunityText() {
                     className="fw-bold mb-4"
                     style={{ color: '#111827', fontSize: '2.8rem', lineHeight: '1.3' }}
                 >
-                    About Our AI Learning Community
+                    About OurLearning Community
                 </h1>
 
                 <p
@@ -50,7 +43,7 @@ function CommunityText() {
 
                 {/* Section Cards */}
                 <Row xs={1} md={2} className="g-4">
-                    {sections.map((section, idx) => (
+                    {communityTextData.map((section, idx) => (
                         <Col key={idx}>
                             <Card
                                 className="h-100 shadow-sm border-0"

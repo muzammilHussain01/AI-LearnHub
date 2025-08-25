@@ -10,7 +10,6 @@ const postApi = async (data, endpoint) => {
         return e.message
     }
 }
-
 const getApi = async (endpoint, params = {}) => {
     try {
         const res = await axios.get(
@@ -23,5 +22,14 @@ const getApi = async (endpoint, params = {}) => {
         return e.message;
     }
 };
+const handleCopy = async (code) => {
+    try {
+        await navigator.clipboard.writeText(code);
+        return true;
+    } catch (err) {
+        console.error("Copy failed:", err);
+        return false;
+    }
+};
 
-export { postApi, getApi };
+export { postApi, getApi, handleCopy };

@@ -1,81 +1,89 @@
-import React from 'react';
-import { Container, Row, Col, Card } from 'react-bootstrap';
+import React from "react";
+import { Container, Row, Col, Card } from "react-bootstrap";
 
 const AboutDoc = () => {
+    // 🔹 All Bootstrap topics stored here
+    const bootstrapPageData = [
+        {
+            id: 1,
+            page: "bootstrapPageData",
+            title: "Grid System",
+            description: "Bootstrap uses a responsive 12-column grid system to create layouts of all shapes and sizes.",
+            useCase: "Build responsive page layouts that adapt to different screen sizes.",
+            sampleCode: `<div class="container"><div class="row"><div class="col-6">Column 1</div><div class="col-6">Column 2</div></div></div>`
+        },
+        {
+            id: 2,
+            page: "bootstrapPageData",
+            title: "Buttons",
+            description: "Bootstrap includes pre-styled buttons with different variants.",
+            useCase: "Create consistent buttons for forms and actions.",
+            sampleCode: `<button class="btn btn-primary">Primary</button>`
+        },
+        {
+            id: 3,
+            page: "bootstrapPageData",
+            title: "Navbar",
+            description: "Responsive navigation header with support for branding, links, and more.",
+            useCase: "Add a responsive navigation bar to your application.",
+            sampleCode: `<nav class="navbar navbar-expand-lg navbar-light bg-light"><a class="navbar-brand" href="#">Brand</a></nav>`
+        },
+        {
+            id: 4,
+            page: "bootstrapPageData",
+            title: "Cards",
+            description: "Cards are flexible content containers with multiple variants and options.",
+            useCase: "Display information in a structured card layout.",
+            sampleCode: `<div class="card" style="width: 18rem;"><div class="card-body"><h5 class="card-title">Card title</h5><p class="card-text">Some quick example text.</p></div></div>`
+        },
+        {
+            id: 5,
+            page: "bootstrapPageData",
+            title: "Forms",
+            description: "Bootstrap provides custom-styled form controls and layout options.",
+            useCase: "Build responsive forms with validation support.",
+            sampleCode: `<form><div class="mb-3"><label class="form-label">Email</label><input type="email" class="form-control" /></div></form>`
+        }
+    ];
+
     return (
-        <Container >
+        <Container>
             <Row>
-                <Col lg={10} >
-                    <h2 className="mb-3 fw-bold">About React Bootstrap</h2>
+                <Col lg={10}>
+                    <h2 className="mb-3 fw-bold">📚 Bootstrap Documentation</h2>
                     <p className="text-muted fs-5">
-                        React Bootstrap is a complete re-implementation of the Bootstrap components using React. By removing the dependency on jQuery and embracing modern component-based architecture, it provides a seamless development experience aligned with today’s best practices. React Bootstrap lets developers build elegant, consistent, and responsive UIs using reusable components.
-                    </p>
-                    <p className="text-muted fs-5">
-                        Unlike traditional Bootstrap, which relies heavily on jQuery and imperative code, React Bootstrap is fully declarative and leverages the power of React's virtual DOM. This results in cleaner, more maintainable code that's easier to debug, test, and scale across large applications.
+                        Bootstrap is a powerful front-end framework for building responsive, mobile-first websites.
+                        Below are some common Bootstrap components with usage examples and sample code.
                     </p>
 
-                    <Card className="bg-light border-0 shadow-sm my-4">
-                        <Card.Body className="p-4">
-                            <small className="text-uppercase text-muted">ads via Carbon</small>
-                            <p className="mb-1 fs-6 fw-semibold">
-                                Build modern applications seamlessly, securely, and flexibly with <a href="https://www.mongodb.com/atlas" target="_blank" rel="noopener noreferrer">MongoDB Atlas</a>. Trusted by thousands of developers worldwide to scale effortlessly and handle production workloads with ease.
-                            </p>
-                            <small className="text-uppercase text-muted">ads via Carbon</small>
-                        </Card.Body>
-                    </Card>
+                    {bootstrapPageData.map((item) => (
+                        <Card key={item.id} className="mb-4 shadow-sm border-0">
+                            <Card.Body>
+                                <h4 className="fw-semibold">{item.title}</h4>
+                                <p className="text-muted">{item.description}</p>
+                                <p>
+                                    <b>Use Case:</b> {item.useCase}
+                                </p>
 
-                    <h4 className="mt-5 fw-semibold">Philosophy</h4>
+                                {/* Render sampleCode as plain string */}
+                                <pre className="bg-dark text-white p-3 rounded">
+                  {item.sampleCode}
+                </pre>
+                            </Card.Body>
+                        </Card>
+                    ))}
+
+                    <h4 className="mt-5 fw-semibold">Why Bootstrap?</h4>
                     <p className="text-muted fs-6">
-                        At the heart of React Bootstrap is a strong commitment to accessibility, performance, and developer experience. We believe that front-end development should be intuitive and flexible without compromising on design or functionality. By combining Bootstrap’s UI strength with React’s component model, we aim to offer a toolkit that supports both rapid prototyping and enterprise-grade development.
+                        Bootstrap accelerates front-end development with ready-to-use components, responsive utilities, and cross-browser support.
+                        It helps developers maintain design consistency and focus more on functionality rather than UI from scratch.
                     </p>
 
-                    <h4 className="mt-4 fw-semibold">Meet the Team</h4>
+                    <h4 className="mt-4 fw-semibold">Advanced Features</h4>
                     <p className="text-muted fs-6">
-                        React Bootstrap is actively maintained by a collaborative group of open-source enthusiasts and experienced software engineers. Many of them are professionals who use the library in real-world projects and care deeply about code quality, user experience, and community feedback. The team works in the open on GitHub and welcomes contributions, big or small.
+                        Beyond grids and components, Bootstrap includes utilities for spacing, flexbox, typography, colors, modals, tooltips,
+                        and much more. Developers can also customize it with Sass variables to match their brand’s identity.
                     </p>
-
-                    <Card className="bg-white border shadow-sm my-4">
-                        <Card.Body className="p-4">
-                            <h5 className="fw-semibold">"The team behind React Bootstrap continues to push boundaries, ensuring the library evolves alongside the React ecosystem."</h5>
-                            <footer className="blockquote-footer mt-3 text-muted">Open Source Contributor</footer>
-                        </Card.Body>
-                    </Card>
-
-                    <h4 className="mt-4 fw-semibold">Contributors</h4>
-                    <p className="text-muted fs-6">
-                        The strength of React Bootstrap lies in its community. Over the years, hundreds of contributors have helped refine the codebase, fix bugs, improve performance, and expand features. Your contributions are what make this project possible. Whether it’s improving documentation, filing bug reports, or proposing new ideas—every bit helps.
-                    </p>
-
-                    <h4 className="mt-4 fw-semibold">Get Involved</h4>
-                    <p className="text-muted fs-6">
-                        Want to be part of something impactful? Join the React Bootstrap community by exploring our issues on GitHub, submitting a pull request, or starting a discussion. We're always on the lookout for people who are passionate about modern UI development and open-source collaboration.
-                    </p>
-                    <p className="text-muted fs-6">
-                        Visit our{' '}
-                        <a href="https://github.com/react-bootstrap/react-bootstrap/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer" className="text-decoration-underline">
-                            contributing guidelines
-                        </a>{' '}
-                        to get started.
-                    </p>
-
-                    <h4 className="mt-4 fw-semibold">External Resources</h4>
-                    <ul className="text-muted fs-6 ps-3">
-                        <li className="mb-1">
-                            <a href="https://getbootstrap.com" target="_blank" rel="noopener noreferrer">Bootstrap</a> – The original CSS framework that inspired this project.
-                        </li>
-                        <li className="mb-1">
-                            <a href="https://reactjs.org" target="_blank" rel="noopener noreferrer">React</a> – A JavaScript library for building user interfaces.
-                        </li>
-                        <li className="mb-1">
-                            <a href="https://react-bootstrap.github.io/react-router-bootstrap/" target="_blank" rel="noopener noreferrer">React Router Bootstrap</a> – Integration between React Router and Bootstrap components.
-                        </li>
-                        <li className="mb-1">
-                            <a href="https://github.com/react-bootstrap/react-bootstrap#awesome-react-bootstrap-components" target="_blank" rel="noopener noreferrer">Awesome React Bootstrap Components</a> – A curated list of additional resources and libraries.
-                        </li>
-                        <li className="mb-1">
-                            <a href="https://codesandbox.io/s/github/react-bootstrap/code-sandbox-examples" target="_blank" rel="noopener noreferrer">React Bootstrap CodeSandbox Examples</a> – Try live demos and experiment instantly.
-                        </li>
-                    </ul>
                 </Col>
             </Row>
         </Container>

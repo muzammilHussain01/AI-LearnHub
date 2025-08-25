@@ -10,9 +10,9 @@ function Footer() {
                 <Row className="g-4">
                     {/* Brand Description */}
                     <Col xs={12} md={4}>
-                        <h5 className="fw-bold mb-3 text-white">AI LearnHub</h5>
+                        <h5 className="fw-bold mb-3 text-white">LearnHub</h5>
                         <p>
-                            Empowering minds to Discover, Learn, and Shape the future of AI through curated resources and collaborative projects.
+                            Empowering minds to Discover, Learn, and Shape the future of through curated resources and collaborative projects.
                         </p>
                     </Col>
 
@@ -60,7 +60,7 @@ function Footer() {
 
                 {/* Footer Bottom Text */}
                 <div className="text-center" style={{ color: '#94a3b8' }}>
-                    © 2025 <span style={{ color: '#fff', fontWeight: '600' }}>AI LearnHub</span>. Empowering you to Discover, Learn, and Shape the Future of AI.
+                    © 2025 <span style={{ color: '#fff', fontWeight: '600' }}>LearnHub</span>. Empowering you to Discover, Learn, and Shape the Future of AI.
                 </div>
             </Container>
         </footer>

@@ -1,8 +1,24 @@
-import React, { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Row, Col, Form } from 'react-bootstrap';
+import { getApi } from "../helper/helper.js";
 
 const HelmetDoc = () => {
+    const [helmetData, setHelmetData] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [copiedCode, setCopiedCode] = useState(null);
+
+    useEffect(() => {
+        const fetchTopics = async () => {
+            try {
+                const response = await getApi("helmet");
+                setHelmetData(response.data.data || []);
+            } catch (error) {
+                setHelmetData([]);
+                console.error("Error fetching topics:", error);
+            }
+        };
+        fetchTopics();
+    }, []);
 
     const handleCopy = async (code, idx) => {
         await navigator.clipboard.writeText(code);
@@ -12,150 +28,30 @@ const HelmetDoc = () => {
 
     const installCode = `npm install helmet`;
 
-    const helmetExamples = [
-        {
-            title: 'Basic Helmet Setup',
-            color: 'primary',
-            icon: '🛡️',
-            code: `const express = require('express');
-const helmet = require('helmet');
-const app = express();
-
-app.use(helmet());
-
-app.get('/', (req, res) => {
-  res.send('Helmet is protecting this route!');
-});
-
-app.listen(3000);`,
-            description: `Helmet helps secure Express apps by setting various HTTP headers. It’s a collection of smaller middleware functions that set security-related HTTP response headers.
-
-Key Points:
-- Protects against well-known web vulnerabilities
-- Sets Content Security Policy, XSS filter, etc.
-- Easy to integrate with Express`
-        },
-        {
-            title: 'Custom Helmet Configuration',
-            color: 'success',
-            icon: '⚙️',
-            code: `app.use(helmet({
-  contentSecurityPolicy: false,
-  crossOriginEmbedderPolicy: false
-}));`,
-            description: `You can disable or configure specific Helmet protections based on your app’s needs.
-
-Key Points:
-- Disable strict policies for APIs or micro frontends
-- Fine-tune security settings`
-        },
-        {
-            title: 'Using Individual Helmet Modules',
-            color: 'info',
-            icon: '📦',
-            code: `const helmet = require('helmet');
-app.use(helmet.xssFilter());
-app.use(helmet.frameguard({ action: 'deny' }));`,
-            description: `Use specific Helmet middleware if you only need certain protections.
-
-Key Points:
-- Choose modules based on use-case
-- Combine selectively for performance or legacy apps`
-        },
-        {
-            title: 'Hide Powered-By Header',
-            color: 'warning',
-            icon: '🙈',
-            code: `app.use(helmet.hidePoweredBy());`,
-            description: `Hiding the \`X-Powered-By\` header adds an extra layer of obscurity to your app.
-
-Key Points:
-- Prevents attackers from targeting known exploits
-- Enhances obscurity security`
-        },
-        {
-            title: 'Content Security Policy (CSP)',
-            color: 'danger',
-            icon: '🧱',
-            code: `app.use(helmet.contentSecurityPolicy({
-  directives: {
-    defaultSrc: ["'self'"],
-    scriptSrc: ["'self'", 'cdn.example.com']
-  }
-}));`,
-            description: `CSP helps prevent XSS attacks by controlling the sources of content that the browser can load.
-
-Key Points:
-- Protects against malicious script injection
-- Highly customizable policy
-- Best defense for frontend-heavy apps`
-        },
-        {
-            title: 'Frameguard (Clickjacking Protection)',
-            color: 'secondary',
-            icon: '🖼️',
-            code: `app.use(helmet.frameguard({ action: 'sameorigin' }));`,
-            description: `Prevents clickjacking attacks by controlling whether your site can be embedded in iframes.
-
-Key Points:
-- Default setting is 'sameorigin'
-- Use 'deny' to block all iframe usage`
-        },
-        {
-            title: 'Referrer Policy',
-            color: 'info',
-            icon: '🔗',
-            code: `app.use(helmet.referrerPolicy({ policy: 'no-referrer' }));`,
-            description: `Controls the ` + "`Referer`" + ` header sent with requests. This helps hide sensitive URLs.
-
-Key Points:
-- Prevents leaking sensitive paths
-- Reduces potential for data mining`
-        },
-        {
-            title: 'DNS Prefetch Control',
-            color: 'dark',
-            icon: '🌐',
-            code: `app.use(helmet.dnsPrefetchControl({ allow: false }));`,
-            description: `Disables browser DNS prefetching to reduce privacy leakage.
-
-Key Points:
-- Improves control over client DNS behavior
-- Useful for privacy-focused apps`
-        },
-        {
-            title: 'Permitted Cross-Domain Policies',
-            color: 'warning',
-            icon: '📄',
-            code: `app.use(helmet.permittedCrossDomainPolicies());`,
-            description: `Sets the ` + "`X-Permitted-Cross-Domain-Policies`" + ` header to restrict Adobe Flash and Acrobat behavior.
-
-Key Points:
-- Prevents unauthorized data sharing
-- Rare but relevant for legacy systems`
-        },
-        {
-            title: 'Strict Transport Security (HSTS)',
-            color: 'success',
-            icon: '🔒',
-            code: `app.use(helmet.hsts({
-  maxAge: 63072000,
-  includeSubDomains: true
-}));`,
-            description: `Forces HTTPS connections by instructing the browser to only use HTTPS for future requests.
-
-Key Points:
-- Strongly recommended in production
-- Prevents SSL stripping attacks
-- Must serve your site via HTTPS`
-        }
-    ];
-
+    // Filtered data based on search term
+    const filteredData = helmetData.filter(example =>
+        example.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        example.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        example.code.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <div>
             <div className="card border-0 shadow-lg bg-white">
                 <div className="card-body px-4 px-md-5">
+
+                    {/* Search Box */}
+                    <Row className="mb-4">
+                        <Col md={12}>
+                            <Form.Control
+                                type="text"
+                                placeholder="Search Helmet examples..."
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </Col>
+                    </Row>
+
                     <Row className="gy-4 mb-5">
                         <Col md={6}>
                             <section className="bg-gradient p-4 rounded-4 border shadow-sm" style={{ background: 'linear-gradient(135deg, #e3f2fd, #f1f8e9)' }}>
@@ -192,7 +88,8 @@ Key Points:
                         </Col>
                     </Row>
 
-                    {helmetExamples.map((example, index) => (
+                    {/* Render Filtered Data */}
+                    {filteredData.map((example, index) => (
                         <section
                             key={index}
                             className={`mb-5 p-4 bg-white border-start border-${example.color} border-5 rounded-4 shadow-sm`}
@@ -221,6 +118,10 @@ Key Points:
                             </div>
                         </section>
                     ))}
+
+                    {filteredData.length === 0 && (
+                        <p className="text-muted text-center mt-4">No matching examples found.</p>
+                    )}
                 </div>
             </div>
         </div>

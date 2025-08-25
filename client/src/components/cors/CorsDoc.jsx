@@ -1,8 +1,25 @@
-import React, { useState } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import React, {useEffect, useState} from 'react';
+import { Row, Col, InputGroup, FormControl } from 'react-bootstrap';
+import {getApi} from "../helper/helper.js";
 
 const CorsDoc = () => {
+    const [corsData, setCorsData] = useState([]);
+
+    useEffect(() => {
+        const fetchTopics = async () => {
+            try {
+                const response = await getApi("cors");
+                setCorsData(response.data.data || []);
+            } catch (error) {
+                setCorsData([]);
+                console.error("Error fetching topics:", error);
+            }
+        };
+        fetchTopics();
+    }, []);
+
     const [copiedCode, setCopiedCode] = useState(null);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const handleCopy = async (code, idx) => {
         await navigator.clipboard.writeText(code);
@@ -12,79 +29,11 @@ const CorsDoc = () => {
 
     const installCode = `npm install cors`;
 
-    const corsExamples = [
-        {
-            title: 'Basic Setup',
-            color: 'primary',
-            icon: '🌐',
-            code: `const express = require('express');
-const cors = require('cors');
-
-const app = express();
-app.use(cors());
-
-app.get('/', (req, res) => {
-  res.json({ message: 'CORS enabled!' });
-});
-
-app.listen(3000);`,
-            description: 'Enable CORS for all routes and origins in an Express app.'
-        },
-        {
-            title: 'Restrict Specific Origin',
-            color: 'success',
-            icon: '🔒',
-            code: `const corsOptions = {
-  origin: 'https://example.com'
-};
-
-app.use(cors(corsOptions));`,
-            description: 'Allow CORS requests only from a specific origin.'
-        },
-        {
-            title: 'Enable CORS for Specific Routes',
-            color: 'info',
-            icon: '🚪',
-            code: `const cors = require('cors');
-
-app.get('/public', cors(), (req, res) => {
-  res.json({ message: 'This route is CORS-enabled for all origins!' });
-});`,
-            description: 'Apply CORS only to a particular route.'
-        },
-        {
-            title: 'CORS with Credentials',
-            color: 'warning',
-            icon: '🍪',
-            code: `const corsOptions = {
-  origin: 'https://example.com',
-  credentials: true
-};
-
-app.use(cors(corsOptions));`,
-            description: 'Allow cookies and authorization headers in CORS requests.'
-        },
-        {
-            title: 'Custom Headers and Methods',
-            color: 'secondary',
-            icon: '⚙️',
-            code: `const corsOptions = {
-  origin: '*',
-  methods: ['GET', 'POST', 'PUT'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-};
-
-app.use(cors(corsOptions));`,
-            description: 'Specify allowed headers and HTTP methods.'
-        },
-        {
-            title: 'Preflight Request Handling',
-            color: 'danger',
-            icon: '🛫',
-            code: `app.options('*', cors());`,
-            description: 'Enable CORS for OPTIONS preflight requests.'
-        }
-    ];
+    // ✅ Filter examples based on search term
+    const filteredExamples = corsData.filter(example =>
+        example.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        example.description.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
     return (
         <div className="card border-0 shadow-lg bg-white">
@@ -125,14 +74,24 @@ app.use(cors(corsOptions));`,
                                     {copiedCode === 'install' ? '✅ Copied' : '📋 Copy'}
                                 </button>
                                 <pre className="bg-dark text-white small rounded p-3 mt-2 overflow-auto">
-                  <code>{installCode}</code>
-                </pre>
+                                    <code>{installCode}</code>
+                                </pre>
                             </div>
                         </section>
                     </Col>
                 </Row>
 
-                {corsExamples.map((example, index) => (
+                {/* 🔍 Search Box */}
+                <InputGroup className="mb-4">
+                    <FormControl
+                        placeholder="Search CORS examples..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                </InputGroup>
+
+                {/* Render Filtered Examples */}
+                {filteredExamples.map((example, index) => (
                     <section
                         key={index}
                         className={`mb-5 p-4 bg-white border-start border-${example.color} border-5 rounded-4 shadow-sm`}
@@ -142,8 +101,8 @@ app.use(cors(corsOptions));`,
                                 {example.icon} {example.title}
                             </h3>
                             <span className={`badge bg-${example.color} text-white`}>
-                Real-World Example
-              </span>
+                                Real-World Example
+                            </span>
                         </div>
 
                         <p className="text-muted small">{example.description}</p>
@@ -156,11 +115,16 @@ app.use(cors(corsOptions));`,
                                 {copiedCode === index ? '✅ Copied' : '📋 Copy'}
                             </button>
                             <pre className="bg-dark text-white small p-3 rounded mt-2 overflow-auto">
-                <code>{example.code}</code>
-              </pre>
+                                <code>{example.code}</code>
+                            </pre>
                         </div>
                     </section>
                 ))}
+
+                {/* If nothing matches */}
+                {filteredExamples.length === 0 && (
+                    <p className="text-muted text-center">⚠️ No matching CORS examples found.</p>
+                )}
             </div>
         </div>
     );

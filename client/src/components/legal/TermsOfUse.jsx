@@ -1,88 +1,106 @@
-import React from 'react';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import React, { useEffect, useState } from "react";
+import { Container, Row, Col, Accordion, Card } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
+import { getApi } from "../helper/helper.js";
 
-function TermsOfUse() {
+const TermsOfUse = () => {
+    const [termsData, setTermsData] = useState([]);
+
+    useEffect(() => {
+        const fetchTopics = async () => {
+            try {
+                const response = await getApi("terms-of-use");
+                setTermsData(response.data.data || []);
+            } catch (error) {
+                setTermsData([]);
+                console.error("Error fetching topics:", error);
+            }
+        };
+        fetchTopics();
+    }, []);
+
     return (
-        <div style={{ background: '#f9fafb', padding: '3rem 0' }}>
-            <Container style={{ maxWidth: '950px' }}>
-                <h2 className="fw-bold mb-4 text-center" style={{ color: '#111827' }}>
-                    📜 Terms of Use for AI LearnHub
-                </h2>
+        <div>
+            {/* Hero Section */}
+            <div
+                className="py-5 text-light"
+                style={{
+                    backgroundImage:
+                        "url('https://images.unsplash.com/photo-1529070538774-1843cb3265df?auto=format&fit=crop&w=1600&q=80')",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    position: "relative",
+                }}
+            >
+                <div
+                    style={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        background: "rgba(0, 0, 0, 0.65)",
+                    }}
+                ></div>
+                <Container style={{ position: "relative", zIndex: 2 }}>
+                    <Row className="align-items-center">
+                        <Col md={8}>
+                            <h1
+                                className="fw-bold display-4"
+                                style={{
+                                    background: "linear-gradient(90deg,#00c6ff,#0072ff)",
+                                    WebkitBackgroundClip: "text",
+                                    WebkitTextFillColor: "transparent",
+                                }}
+                            >
+                                📜 LearnHub Terms of Use
+                            </h1>
+                            <p className="lead opacity-75">
+                                Welcome to LearnHub! These Terms of Use outline the rules and
+                                responsibilities for using our platform. By continuing to
+                                access LearnHub, you agree to follow these terms.
+                            </p>
+                        </Col>
+                        <Col md={4} className="text-center">
+                            <img
+                                src="https://via.placeholder.com/280x200.png?text=LearnHub+Illustration"
+                                alt="Illustration"
+                                className="img-fluid rounded-3 shadow-lg"
+                            />
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
 
-                <p style={{ color: '#374151', lineHeight: '1.9' }}>
-                    Welcome to AI LearnHub! By accessing and using our website, resources, and community
-                    features, you agree to abide by these Terms of Use. Please read them carefully before
-                    proceeding.
-                </p>
-
-                <h4 className="fw-semibold mt-5 mb-3" style={{ color: '#111827' }}>📌 Acceptance of Terms</h4>
-                <p style={{ color: '#374151', lineHeight: '1.9' }}>
-                    By accessing this website and using our services, you accept and agree to be bound by these
-                    Terms of Use, our Privacy Policy, and any other policies posted on our platform.
-                    If you do not agree with any part of these terms, you should not use our services.
-                </p>
-
-                <h4 className="fw-semibold mt-5 mb-3" style={{ color: '#111827' }}>📌 User Responsibilities</h4>
-                <p style={{ color: '#374151', lineHeight: '1.9' }}>
-                    As a user of AI LearnHub, you agree to:
-                </p>
-                <ul style={{ color: '#374151' }}>
-                    <li>Provide accurate, current, and complete registration information</li>
-                    <li>Use the website for lawful purposes only</li>
-                    <li>Respect the rights and opinions of other community members</li>
-                    <li>Refrain from uploading harmful, abusive, or unauthorized content</li>
-                    <li>Not attempt to access or modify the platform's code or data without permission</li>
-                </ul>
-
-                <h4 className="fw-semibold mt-5 mb-3" style={{ color: '#111827' }}>📌 Intellectual Property</h4>
-                <p style={{ color: '#374151', lineHeight: '1.9' }}>
-                    All content available on AI LearnHub — including text, graphics, logos, videos, and
-                    resources — is the property of AI LearnHub or its content providers. Unauthorized copying,
-                    distribution, or use of any materials without written consent is prohibited.
-                </p>
-
-                <h4 className="fw-semibold mt-5 mb-3" style={{ color: '#111827' }}>📌 Use of Learning Resources</h4>
-                <p style={{ color: '#374151', lineHeight: '1.9' }}>
-                    Our learning resources are intended for educational and personal growth purposes.
-                    You may not use these materials for commercial gain, distribute them publicly,
-                    or present them as your own work without appropriate credit.
-                </p>
-
-                <h4 className="fw-semibold mt-5 mb-3" style={{ color: '#111827' }}>📌 Limitation of Liability</h4>
-                <p style={{ color: '#374151', lineHeight: '1.9' }}>
-                    AI LearnHub strives to provide accurate, high-quality content but makes no guarantees
-                    regarding the completeness, accuracy, or reliability of resources or advice.
-                    We are not liable for any direct, indirect, or consequential damages arising from
-                    your use of our platform or materials.
-                </p>
-
-                <h4 className="fw-semibold mt-5 mb-3" style={{ color: '#111827' }}>📌 Account Termination</h4>
-                <p style={{ color: '#374151', lineHeight: '1.9' }}>
-                    We reserve the right to suspend or terminate your access to our platform without notice if
-                    you violate these Terms of Use, harm our community, or misuse our services.
-                </p>
-
-                <h4 className="fw-semibold mt-5 mb-3" style={{ color: '#111827' }}>📌 Modifications to Terms</h4>
-                <p style={{ color: '#374151', lineHeight: '1.9' }}>
-                    AI LearnHub may update or modify these Terms of Use at any time. We encourage you to
-                    review this page periodically. Continued use of our services following changes signifies
-                    your acceptance of the revised terms.
-                </p>
-
-                <h4 className="fw-semibold mt-5 mb-3" style={{ color: '#111827' }}>📌 Contact Information</h4>
-                <p style={{ color: '#374151', lineHeight: '1.9' }}>
-                    If you have any questions about these Terms of Use or your experience with AI LearnHub,
-                    please contact us:
-                </p>
-                <p style={{ color: '#374151' }}>
-                    📧 Email: <a href="mailto:support@ailearnhub.com">support@ailearnhub.com</a><br />
-                    🌐 Website: <a href="https://www.ailearnhub.com" target="_blank" rel="noopener noreferrer">www.ailearnhub.com</a>
-                </p>
+            {/* Accordion Section */}
+            <Container className="my-5">
+                <Accordion alwaysOpen>
+                    {termsData.map((section, index) => (
+                        <Accordion.Item eventKey={index.toString()} key={index}>
+                            <Accordion.Header>
+                                <i
+                                    className={`${section.icon} me-2`}
+                                    style={{
+                                        fontSize: "1.3rem",
+                                        color: "#0072ff",
+                                    }}
+                                ></i>
+                                <span className="fw-bold">{section.title}</span>
+                            </Accordion.Header>
+                            <Accordion.Body>
+                                <Card className="border-0 shadow-sm">
+                                    <Card.Body>
+                                        <p className="text-muted mb-0">{section.description}</p>
+                                    </Card.Body>
+                                </Card>
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    ))}
+                </Accordion>
             </Container>
         </div>
     );
-}
+};
 
 export default TermsOfUse;

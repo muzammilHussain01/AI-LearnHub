@@ -1,37 +1,29 @@
-const {db} = require("../services/firebaseAdmin")
-async function avaliableLibraries (req, res) {
+const { db } = require("../services/firebaseAdmin");
+
+async function avaliableLibraries(req, res) {
     console.log("avaliableLibraries api is calling.");
     try {
-        const {
-            page,
-            level,
-            title,
-            description,
-            badge,
-            button
-        } = req.body;
-        // if (!libraryName || typeof libraryName !== "string") {
-        //     return res.status(400).json({
-        //         message: "Invalid parameter"
-        //     })
-        // }
-        await db.collection("website-data").add({
-            page,
-            level,
-            title,
-            description,
-            badge,
-            button
+        const { contentData } = req.body;
+
+        if (!Array.isArray(contentData)) {
+            return res.status(400).json({ error: "contentData must be an array of objects" });
+        }
+
+        // Save each object in Firestore
+        const savedDocs = [];
+        for (const item of contentData) {
+            const docRef = await db.collection("website-data").add(item); // ✅ save each object
+            savedDocs.push({ id: docRef.id, ...item });
+        }
+
+        res.status(201).json({
+            message: "Content data saved successfully",
+            savedDocs
         });
-       return res.status(201).json({
-            message: "Data saved."
-        })
-    }
-    catch (e) {
-        console.log(e);
-        return res.status(500).json({
-            message: "Internal server error."
-        })
+    } catch (error) {
+        console.error("Error saving contentData:", error);
+        res.status(500).json({ error: "Failed to save contentData" });
     }
 }
+
 module.exports = avaliableLibraries;
