@@ -15,7 +15,7 @@ app.use("/api", mainRoutes);
 app.use("/api-docs", swaggerUi.serve,swaggerUi.setup(swaggerDocument))
 exports.api = functions.https.onRequest(app);
 
-// const PORT = 5000;
-// app.listen(PORT, () => {
-//     console.log(`Server is running at port no. ${PORT}`);
-// });
+const PORT = 5000;
+app.listen(PORT, () => {
+    console.log(`Server is running at port no. ${PORT}`);
+});
